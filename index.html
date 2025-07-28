@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Med Easy & Science 3D Explorer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset & Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary-blue: #1a5fad;
+      --dark-blue: #0d3d7a;
+      --gradient-blue: linear-gradient(135deg, #1a5fad 0%, #0d3d7a 100%);
+      --light-blue: #4facfe;
+      --teal: #00f2fe;
+      --orange: #f7971e;
+      --yellow: #ffd200;
+      --red: #ff416c;
+      --green: #00b894;
+      --purple: #0984e3;
+    }
+
+    body {
+      background: #f4f6f8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    /* Header Container */
+    .header-container {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 15px 40px rgba(0, 0, 100, 0.15);
+      overflow: hidden;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .med-header {
+      background: var(--gradient-blue);
+      color: white;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .med-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+      z-index: 1;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      background: linear-gradient(135deg, var(--light-blue), var(--teal));
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .logo-icon i {
+      font-size: 28px;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-text span {
+      color: var(--light-blue);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 20px 0;
+    }
+
+    .tagline {
+      max-width: 500px;
+      text-align: left;
+    }
+
+    .tagline h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .tagline p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--light-blue), var(--teal));
+      border: none;
+      padding: 14px 35px;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+    }
+
+    .header-image {
+      background: var(--teal);
+      width: 240px;
+      height: 200px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-image::before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 40px;
+      background: rgba(255,255,255,0.3);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    .header-image i {
+      font-size: 80px;
+      color: white;
+      opacity: 0.9;
+      z-index: 1;
+    }
+
+    /* Instructions */
+    .instruction-btn {
+      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      color: #000;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .instruction-btn:hover {
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .instructions-box {
+      display: none;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto 30px;
+      position: relative;
+      z-index: 10;
+      border: 2px solid #eaeaea;
+    }
+
+    .instruction-line {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.03);
+    }
+
+    .green-text {
+      color: #28a745;
+    }
+
+    .red-text {
+      color: #dc3545;
+    }
+
+    /* Share Button */
+    .share-button {
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      color: white;
+      background-color: #28a745;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px auto;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .share-button:hover {
+      background-color: #218838;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    /* 3D Explorer Section */
+    .explorer-section {
+      width: 100%;
+      max-width: 1200px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      border-radius: 15px;
+      padding: 40px 20px;
+      margin-top: 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 100, 0.2);
+      position: relative;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .explorer-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(74, 107, 179, 0.2) 0%, transparent 30%),
+                  radial-gradient(circle at bottom left, rgba(23, 42, 92, 0.2) 0%, transparent 30%);
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .title {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: titleGlow 3s infinite alternate;
+    }
+    
+    .subtitle {
+      font-size: 1.4rem;
+      color: #a0c1e8;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+    
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+    
+    .science-btn {
+      position: relative;
+      color: white;
+      border: none;
+      padding: 22px 60px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px;
+      min-width: 280px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    
+    .physics-btn {
+      background: linear-gradient(45deg, var(--red), #ff4b2b);
+    }
+    
+    .biology-btn {
+      background: linear-gradient(45deg, var(--green), var(--purple));
+    }
+    
+    .science-btn i {
+      margin-right: 15px;
+      font-size: 2.2rem;
+    }
+    
+    .science-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .science-btn:active {
+      transform: translateY(0);
+    }
+    
+    .science-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+      z-index: -1;
+    }
+    
+    .science-btn:hover::before {
+      left: 100%;
+    }
+    
+    .science-btn::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      background: inherit;
+      filter: blur(20px);
+      z-index: -2;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .science-btn:hover::after {
+      opacity: 0.7;
+    }
+    
+    .footer {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #7a9bc8;
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Panel Styles */
+    .panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 15, 35, 0.97);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .panel.active {
+      display: flex;
+      animation: fadeIn 0.4s forwards;
+    }
+    
+    .panel-content {
+      max-width: 1200px;
+      width: 100%;
+      margin: 80px auto 40px;
+      background: rgba(20, 25, 50, 0.85);
+      border-radius: 25px;
+      padding: 35px;
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 1001;
+    }
+    
+    .close-btn {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      font-size: 2.5rem;
+      color: #ff4b2b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.15);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .close-btn:hover {
+      transform: rotate(90deg) scale(1.1);
+      color: #ff7e5f;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    
+    .panel-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .physics-title {
+      color: #ff7e5f;
+    }
+    
+    .biology-title {
+      color: var(--teal);
+    }
+    
+    .models-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    
+    .model-card {
+      background: rgba(30, 35, 60, 0.7);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+    
+    .model-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+    
+    .model-title {
+      padding: 18px;
+      font-size: 1.3rem;
+      text-align: center;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .physics-card .model-title {
+      background: linear-gradient(45deg, var(--red), #ff4b2b);
+    }
+    
+    .biology-card .model-title {
+      background: linear-gradient(45deg, var(--green), var(--purple));
+    }
+    
+    .model-embed {
+      width: 100%;
+      height: 320px;
+      border: none;
+      display: block;
+    }
+    
+    .ad-container {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 25px 0;
+      text-align: center;
+    }
+    
+    .ad-label {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Floating elements */
+    .floating-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      animation: float 15s infinite linear;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-40px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes titleGlow {
+      0% { text-shadow: 0 0 10px rgba(255, 126, 95, 0.5); }
+      100% { text-shadow: 0 0 30px rgba(255, 126, 95, 0.8); }
+    }
+    
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 150%; }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .title {
+        font-size: 3rem;
+      }
+      
+      .subtitle {
+        font-size: 1.3rem;
+      }
+      
+      .science-btn {
+        padding: 20px 50px;
+        font-size: 1.6rem;
+      }
+      
+      .tagline h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .buttons-container {
+        gap: 25px;
+      }
+      
+      .models-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .model-embed {
+        height: 280px;
+      }
+      
+      .title {
+        font-size: 2.5rem;
+      }
+      
+      .panel-title {
+        font-size: 2rem;
+      }
+      
+      .science-btn {
+        min-width: 100%;
+        padding: 18px 40px;
+        font-size: 1.5rem;
+      }
+      
+      .header-content {
+        flex-direction: column;
+      }
+      
+      .tagline {
+        text-align: center;
+      }
+      
+      .logo-text {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .model-embed {
+        height: 220px;
+      }
+      
+      .panel-content {
+        padding: 20px 15px;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .panel-title {
+        font-size: 1.6rem;
+      }
+      
+      .close-btn {
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+      }
+      
+      .nav-links {
+        gap: 10px;
+      }
+      
+      .nav-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-container">
+    <header class="med-header">
+      <div class="top-bar">
+        <div class="logo-container">
+          <div class="logo-icon"><i class="fas fa-book-medical"></i></div>
+          <div class="logo-text">STUDY <span>MED</span> EASY</div>
+        </div>
+        <div class="nav-buttons">
+          <button class="nav-btn"><i class="fas fa-search"></i></button>
+          <button class="nav-btn"><i class="fas fa-user"></i></button>
+          <button class="nav-btn"><i class="fas fa-cog"></i></button>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#" class="nav-link active">Home</a>
+        <a href="#" class="nav-link">Courses</a>
+        <a href="#" class="nav-link">Resources</a>
+        <a href="#" class="nav-link">Flashcards</a>
+        <a href="#" class="nav-link">Quizzes</a>
+        <a href="#" class="nav-link">Community</a>
+      </nav>
+
+      <div class="header-content">
+        <div class="tagline">
+          <h1>Master Medical Concepts with Interactive Learning</h1>
+          <p>Access comprehensive study materials, 3D anatomy models, and expert-crafted resources designed for medical students.</p>
+          <button class="cta-button"><i class="fas fa-graduation-cap"></i> Start Learning Now</button>
+        </div>
+        <div class="header-image"><i class="fas fa-brain"></i></div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Instructions Section -->
+  <button class="instruction-btn" onclick="toggleInstructions()">
+    <i class="fas fa-download"></i> Download App Instructions
+  </button>
+
+  <div class="instructions-box" id="instructions">
+    <div class="instruction-line green-text">
+      [ TO INSTALL NEW VERSION = DOWNLOAD APP THEN UNINSTALL OLD THEN INSTALL NEW ]
+    </div>
+    <div class="instruction-line red-text">
+      [ NEW VERSION = EVERY SUNDAY ]
+    </div>
+  </div>
+
+  <!-- Share Button -->
+  <button class="share-button" onclick="shareApp()">
+    <i class="fas fa-share-alt"></i> Share STUDY MED EASY
+  </button>
+
+  <!-- Science 3D Explorer Section -->
+  <div class="explorer-section">
+    <!-- Floating background elements -->
+    <div class="floating-elements">
+      <div class="floating-element" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-duration: 25s;"></div>
+      <div class="floating-element" style="width: 200px; height: 200px; top: 70%; left: 80%; animation-duration: 20s;"></div>
+      <div class="floating-element" style="width: 150px; height: 150px; top: 30%; left: 70%; animation-duration: 18s;"></div>
+      <div class="floating-element" style="width: 250px; height: 250px; top: 50%; left: 20%; animation-duration: 22s;"></div>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <h1 class="title">SCIENCE 3D EXPLORER</h1>
+        <p class="subtitle">Immerse yourself in interactive 3D models of complex scientific concepts. Explore physics phenomena and biological structures in stunning detail.</p>
+      </div>
+      
+      <div class="buttons-container">
+        <button id="physicsBtn" class="science-btn physics-btn">
+          <i class="fas fa-atom"></i> PHYSICS 3D
+        </button>
+        
+        <button id="biologyBtn" class="science-btn biology-btn">
+          <i class="fas fa-dna"></i> BIOLOGY 3D
+        </button>
+      </div>
+      
+      <div class="footer">
+        <p>Discover the wonders of science through interactive 3D visualizations</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Physics 3D Panel -->
+  <div id="physicsPanel" class="panel">
+    <span class="close-btn" id="closePhysicsPanel">
+      <i class="fas fa-times"></i>
+    </span>
+    
+    <div class="panel-content">
+      <h2 class="panel-title physics-title">Physics 3D Models</h2>
+      
+      <div class="models-container">
+        <!-- Faraday Generator -->
+        <div class="model-card physics-card">
+          <div class="model-title">Faraday Generator</div>
+          <iframe class="model-embed" title="Faraday Generator" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/5980d78b5b644d8f9d3bd51cb49d6972/embed"></iframe>
+        </div>
+        
+        <!-- Newton Cradle -->
+        <div class="model-card physics-card">
+          <div class="model-title">Newton's Cradle</div>
+          <iframe class="model-embed" title="Newton Cradle" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/64e2753a06b941408feaf1e012329bb9/embed"></iframe>
+        </div>
+        
+        <!-- Electric Current Flow -->
+        <div class="model-card physics-card">
+          <div class="model-title">Electric Current Flow</div>
+          <iframe class="model-embed" title="Electric Current" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/cb4bc270802b46e6b250b731df6bbcb7/embed"></iframe>
+        </div>
+        
+        <!-- DC Motor Principle -->
+        <div class="model-card physics-card">
+          <div class="model-title">DC Motor Principle</div>
+          <iframe class="model-embed" title="DC Motor" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/e9ac2cf2f2d04180b02965c01f7a9a19/embed"></iframe>
+        </div>
+        
+        <!-- Wind Turbine -->
+        <div class="model-card physics-card">
+          <div class="model-title">Wind Turbine</div>
+          <iframe class="model-embed" title="Wind Turbine" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/7da41a0565e34d63bcb0f3cc0ccf5be5/embed"></iframe>
+        </div>
+        
+        <!-- Cathode Ray Tube -->
+        <div class="model-card physics-card">
+          <div class="model-title">Cathode Ray Tube</div>
+          <iframe class="model-embed" title="Cathode Ray Tube" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/b37070a86e824de2a9a6092ab66c0252/embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Biology 3D Panel -->
+  <div id="biologyPanel" class="panel">
+    <span class="close-btn" id="closeBiologyPanel">
+      <i class="fas fa-times"></i>
+    </span>
+    
+    <div class="panel-content">
+      <h2 class="panel-title biology-title">Biology 3D Models</h2>
+      
+      <div class="models-container">
+        <!-- Human Heart -->
+        <div class="model-card biology-card">
+          <div class="model-title">Human Heart</div>
+          <iframe class="model-embed" title="Human Heart" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/168b474fba564f688048212e99b4159d/embed"></iframe>
+        </div>
+        
+        <!-- Brain System -->
+        <div class="model-card biology-card">
+          <div class="model-title">Brain & Brainstem</div>
+          <iframe class="model-embed" title="Brain System" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/cd2c7e138f1940399b17596de3e3ecc6/embed"></iframe>
+        </div>
+        
+        <!-- Kidney Anatomy -->
+        <div class="model-card biology-card">
+          <div class="model-title">Kidney Anatomy</div>
+          <iframe class="model-embed" title="Kidney Anatomy" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/0215aaf9e9a243cdafca249a979680b0/embed"></iframe>
+        </div>
+        
+        <!-- Muscles and Bones -->
+        <div class="model-card biology-card">
+          <div class="model-title">Musculoskeletal System</div>
+          <iframe class="model-embed" title="Musculoskeletal System" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/db7be21587804a32ab3a99e165c56e19/embed"></iframe>
+        </div>
+        
+        <!-- Exploding Skull -->
+        <div class="model-card biology-card">
+          <div class="model-title">Interactive Skull</div>
+          <iframe class="model-embed" title="Interactive Skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/252887e2e755427c90d9e3d0c6d3025f/embed"></iframe>
+        </div>
+        
+        <!-- Animal Cell -->
+        <div class="model-card biology-card">
+          <div class="model-title">Animal Cell</div>
+          <iframe class="model-embed" title="Animal Cell" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/78b4b0b2c690485c9ea776bc2daa0569/embed"></iframe>
+        </div>
+        
+        <!-- Plant Cell -->
+        <div class="model-card biology-card">
+          <div class="model-title">Plant Cell</div>
+          <iframe class="model-embed" title="Plant Cell" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/1c5ce80d03d149208d30cc5aeb6e42fb/embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle instructions
+    function toggleInstructions() {
+      const box = document.getElementById('instructions');
+      box.style.display = box.style.display === 'none' || box.style.display === '' ? 'block' : 'none';
+    }
+
+    // Share app function
+    function shareApp() {
+      const shareData = {
+        title: 'STUDY MED EASY App',
+        text: '📘 Download this amazing app to simplify medical studies!',
+        url: 'https://github.com/Pranabgoswami/STUDYMEDEASY-3d-DIGITAL-/releases/download/beta_1.0/app-debug.apk'
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData)
+          .then(() => console.log('Shared successfully'))
+          .catch((err) => console.error('Share failed:', err));
+      } else {
+        alert('Sharing not supported on this device. Please copy the link manually.');
+      }
+    }
+
+    // Science 3D Explorer functionality
+    const physicsBtn = document.getElementById('physicsBtn');
+    const biologyBtn = document.getElementById('biologyBtn');
+    const physicsPanel = document.getElementById('physicsPanel');
+    const biologyPanel = document.getElementById('biologyPanel');
+    const closePhysicsPanel = document.getElementById('closePhysicsPanel');
+    const closeBiologyPanel = document.getElementById('closeBiologyPanel');
+    
+    // Open physics panel
+    physicsBtn.addEventListener('click', () => {
+      physicsPanel.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    // Open biology panel
+    biologyBtn.addEventListener('click', () => {
+      biologyPanel.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    // Close physics panel
+    closePhysicsPanel.addEventListener('click', () => {
+      physicsPanel.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+    
+    // Close biology panel
+    closeBiologyPanel.addEventListener('click', () => {
+      biologyPanel.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+    
+    // Close panels when clicking outside content
+    physicsPanel.addEventListener('click', (e) => {
+      if (e.target === physicsPanel) {
+        physicsPanel.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+    
+    biologyPanel.addEventListener('click', (e) => {
+      if (e.target === biologyPanel) {
+        biologyPanel.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+    
+    // Close panels with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        physicsPanel.classList.remove('active');
+        biologyPanel.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+    
+    // Create floating background elements dynamically
+    const floatingContainer = document.querySelector('.floating-elements');
+    for (let i = 0; i < 15; i++) {
+      const element = document.createElement('div');
+      element.classList.add('floating-element');
+      
+      const size = Math.random() * 100 + 50;
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const duration = Math.random() * 20 + 15;
+      
+      element.style.width = `${size}px`;
+      element.style.height = `${size}px`;
+      element.style.top = `${top}%`;
+      element.style.left = `${left}%`;
+      element.style.animationDuration = `${duration}s`;
+      element.style.opacity = Math.random() * 0.1 + 0.05;
+      
+      floatingContainer.appendChild(element);
+    }
+  </script>
+</body>
+</html>
